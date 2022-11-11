@@ -1,0 +1,27 @@
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8" cdkDropListGroup>
+  <ng-container
+    *ngFor="let column of columns; let i = index"
+    [matColumnDef]="column.field"
+  >
+    <mat-header-cell
+      *matHeaderCellDef
+      cdkDropList
+      cdkDropListLockAxis="x"
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="dropListDropped($event, i)"
+      cdkDrag
+      [cdkDragData]="{ name: column.field, columIndex: i }"
+      (cdkDragStarted)="dragStarted($event, i)"
+    >
+    <div style="position: relative; width: 100%; height: 40px; text-align: center; line-height: 40px">
+      {{ column.field }}
+
+      <div style="position: absolute; width: 95%; height: 100%; top: 0; left: 0" cdkDragHandle>&nbsp;</div>
+      <div style="position: absolute; width: 5%; height: 100%; top: 0; right: 0" class="dragIcon" (mousedown)="onResizeColumn($event, i)"></div>
+    </div>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row[column.field] }} </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
